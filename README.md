@@ -20,7 +20,78 @@ The project uses OULAD, which contains student demographic information, course r
 
 Early engagement features include weekly click counts, active weeks, total activity, and other activity-based measures. Different units use different observation windows according to their modelling objectives.
 
-**Dataset source:** https://analyse.kmi.open.ac.uk/open_dataset
+**Original dataset source:** https://analyse.kmi.open.ac.uk/open_dataset
+
+### Dataset Setup Instructions
+
+The raw dataset files are maintained separately in the [LEARNOVA VLE repository](https://github.com/Jashmi10/VLE). They are not included in this repository.
+
+Before running the project, clone the VLE repository into a folder named `data` inside the LEARNOVA project directory.
+
+#### Step 1 — Clone LEARNOVA
+
+```bash
+git clone https://github.com/Jashmi10/LEARNOVA.git
+cd LEARNOVA
+```
+
+#### Step 2 — Download the dataset
+
+From the LEARNOVA project root, run:
+
+```bash
+git clone https://github.com/Jashmi10/VLE.git data
+```
+
+This creates the `data/` directory and downloads the contents of the VLE repository into it.
+
+#### Step 3 — Verify the directory structure
+
+After downloading the dataset, the project should have the following structure:
+
+```text
+LEARNOVA/
+├── data/
+│   └── Dataset files from the VLE repository
+├── processed/
+│   ├── early_engagement_4weeks.csv
+│   └── weekly_activity.csv
+├── results/
+│   ├── unit3/
+│   ├── unit4/
+│   └── unit5/
+├── src/
+│   ├── prepare_data.py
+│   ├── unit3_clustering.py
+│   ├── unit4_sequential.py
+│   └── unit5_ensemble.py
+├── requirements.txt
+└── README.md
+```
+
+#### Step 4 — Set up the Python environment
+
+Create and activate a virtual environment, then install the dependencies:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+On Windows, activate the environment using:
+
+```bash
+.venv\Scripts\activate
+```
+
+#### Step 5 — Run the project
+
+Run the Python scripts from the LEARNOVA project root, following the execution order and file paths expected by the scripts.
+
+Ensure that the required raw dataset files are present inside `data/` before running data preparation or modelling scripts.
+
+**Important:** The `data/` directory is excluded from the LEARNOVA Git repository to avoid uploading large raw dataset files. Each user must obtain the dataset from the separate VLE repository before running the project.
 
 ## Technologies Used
 
@@ -34,18 +105,23 @@ Early engagement features include weekly click counts, active weeks, total activ
 ## Methodology
 
 ### 1. Supervised Learning
+
 Academic risk classification and assessment score regression are performed using early student activity and assessment-related features. Models are evaluated using classification and regression metrics.
 
 ### 2. Unsupervised Learning
+
 K-Means, GMM, and Agglomerative Clustering are applied to the first four weeks of student engagement. The resulting clusters are evaluated using the Silhouette Score and Davies–Bouldin Index.
 
 ### 3. Sequential Modelling
+
 Weekly engagement is represented using four observed categories: no clicks, low engagement, medium engagement, and high engagement. Markov models capture observed-state transitions, while HMMs investigate latent engagement patterns over 12 weeks.
 
 ### 4. Ensemble Learning
+
 Random Forest and Extra Trees classifiers use the first four weeks of engagement and engineered activity features to predict final academic outcomes.
 
 ### 5. Experiment Tracking
+
 MLflow is used to track Unit 4 sequential modelling experiments, including comparisons of HMM configurations with different numbers of hidden states.
 
 ## Results
